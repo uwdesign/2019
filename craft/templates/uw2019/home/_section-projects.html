@@ -1,0 +1,41 @@
+{# This is the template for the Projects section on the home page #}
+
+{# Get all projects #}
+{% set projects = craft.entries
+	.section('projects')
+	.with([
+		'designers',
+		'tags',
+		'splash',
+		'images'
+	])
+	.all() %}
+
+<div id="{{ block.sectionName ? block.sectionName | kebab : 'projects' }}" class="section-anchor"></div>
+<section id="page-section-{{ block.sectionName ? block.sectionName | kebab : 'projects' }}" class="page-section page-section-{{ block.sectionName ? block.sectionName | kebab : 'projects' }} section-type-projects">
+	<div class="container-fluid container-max-width">
+	
+		<header class="section-header">
+			<h2 class="section-title">{{ block.sectionName ? block.sectionName : 'Projects' }}</h2>
+		</header>
+	
+		<div class="section-content">
+			{% if projects | length %}
+			<ul class="grid grid-masonry-columns">
+				{% for entry in projects -%}
+				<li class="grid-item">
+					
+					{% include 'includes/_content-project' with { 'entry': entry } only %}
+					
+				</li>
+				{%- endfor %}
+			</ul>
+			{% else %}
+				<div class="no-results">
+					<p>No projects have been approved yet.</p>
+				</div>
+			{% endif %}
+		</div><!-- .section-content -->
+		
+	</div><!-- .container-fluid -->
+</section><!-- #projects -->

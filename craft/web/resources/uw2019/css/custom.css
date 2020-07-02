@@ -1,0 +1,76 @@
+#player {
+	width: 100%;
+	height: auto;
+	max-width: 1200px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.begin {
+	background-color: #141914;
+	color: #141914;
+}
+
+#vidiv {
+	background-color: #141914;
+	color: #141914;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 50vh;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+.hypeVideo iframe {
+	padding-top: 10vh;
+	width: 100%;
+	height: auto;
+	max-width: 1200px;
+	background-color: #141914;
+}
+
+.circ {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100vh;
+	background-color: #141914;
+}
+.circ svg {
+  width: 100%;
+  height: 100%;
+}
+
+.entry-type-projects .entry-thumbnail img:hover {
+  outline: 4px solid #51FF00;
+}
+
+.path {
+  stroke: #51ff00; brand colors
+  fill: none;
+  z-index: 1;
+  /*stroke: #858584; */
+  /*stroke: #fff; */
+  stroke-width: 3px;
+  stroke-dasharray: 2000;
+  stroke-dashoffset: 2000;
+  -webkit-animation: dash 2s linear both infinite;
+          animation: dash 2s linear both infinite;
+  fill: none;
+  z-index: 0; */
+	transform: translateZ(0);
+}
+
+.cls-3 { /* letters */
+  fill: white;
+  stroke-width: 3px;
+  z-index: 500;
+  stroke: #fff;
+  opacity: 20%;
+}
+
+.cls-2 { /* Lines */
+  stroke-width: 2;
+}

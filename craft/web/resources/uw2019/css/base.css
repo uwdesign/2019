@@ -1,0 +1,652 @@
+a,
+a:hover,
+a:focus,
+a:active {
+	color: black;
+}
+
+h1, h2, h3, h4 {
+	font-family: "SpaceGrotesk-Bold";
+}
+
+/* Space Grotesk font import */
+@font-face {
+	font-family: "SpaceGrotesk-Regular";
+	src: url(/resources/uw2019/fonts/SpaceGrotesk-Regular.otf);
+}
+
+@font-face {
+	font-family: "SpaceGrotesk-Bold";
+	src: url(/resources/uw2019/fonts/SpaceGrotesk-Bold.otf);
+	font-weight: bold;
+}
+
+.page-home {
+	font-family: "SpaceGrotesk-Regular";
+}
+
+.container-max-width {
+	margin-right: auto;
+	margin-left: auto;
+	max-width: 1200px;
+}
+
+/* @group Page Header */
+
+.site-header {
+	position: fixed;
+	top: 0;
+	right: 0;
+	left: 0;
+	z-index: 1000;
+	background-color: #141914;
+	height: auto;
+}
+
+.page-home .site-header {
+	/* opacity: 0; */
+	-webkit-transition: opacity 0.5s ease;
+	-moz-transition: opacity 0.5s ease;
+	transition: opacity 0.5s ease;
+  background-color: black;
+}
+
+.site {
+	/* padding-top: 75px; */
+	font-family: "SpaceGrotesk-Regular";
+}
+
+.page-section-info { /*Overriding standard section styles for better balance */
+	padding-top: 80px;
+}
+
+.page-home .site-header {
+	opacity: 0;
+	-webkit-transition: opacity 0.5s ease;
+	-moz-transition: opacity 0.5s ease;
+	transition: opacity 0.5s ease;
+	background-color: #141914;
+}
+
+.site-header.sticky {
+	opacity: 1;
+}
+
+.site-header::after {
+	/* Clearfix */
+	display: block;
+	clear: both;
+	content: '';
+}
+
+.site-branding {
+	float: right;
+}
+
+.site-title {
+	margin-top: 0;
+	margin-bottom: 0;
+	font-size: 18px;
+	line-height: 24px;
+}
+
+.site-title a {
+	display: inline-block;
+	padding: 25px 20px;
+	color: #DDDDDC;
+	font-weight: normal;
+}
+
+.main-navigation .nav-menu {
+	display: inline-block;
+	margin-bottom: 0;
+	margin-left: -20px;
+	margin-right: -20px;
+}
+
+.menu {
+	padding-left: 0;
+	list-style-type: none;
+}
+
+.menu-item {
+	display: inline-block;
+	vertical-align: bottom;
+	height: inherit;
+}
+
+.menu-item:hover {
+	background-color: #51FF00;
+}
+
+.menu-link {
+	display: inline-block;
+	padding: 25px 20px;
+	color: #DDDDDC;
+}
+
+.menu-link:hover,
+.menu-link:focus,  {
+	color: #141914;
+}
+
+.menu-link:active {
+	color: #141914;
+}
+
+.submenu-container {
+	position: absolute;
+	right: 0;
+	left: 0;
+	display: none;
+	padding-top: 25px;
+	padding-bottom: 25px;
+	border-top: 1px solid white;
+	background-color: #141914;;
+}
+
+.has-submenu:hover .submenu-container {
+	display: block;
+}
+
+.submenu-group {
+	display: inline-block;
+	vertical-align: top;
+	margin-bottom: 20px;
+}
+
+.submenu-group-tags .submenu-item {
+	display: inline-block;
+	width: 100%;
+}
+
+
+@media (max-width: 768px) {
+		.site-header {
+			height: inherit;
+		}
+
+		.menu-link {
+			display: inline-block;
+			padding: 20px 15px;
+			color: #DDDDDC;
+			font-size: 14px;
+		}
+
+		.submenu-group-programs {
+			display: block;
+			width: 50%;
+		}
+
+		.submenu-group-tags {
+			width: 100%;
+		}
+
+		.submenu-group-tags .submenu-item {
+			display: inline-block;
+			width: 33.333%;
+		}
+}
+
+@media (min-width: 768px) {
+	.menu-link {
+		font-size: 16px;
+	}
+}
+
+@media (min-width: 768px) {
+	.submenu-group-programs {
+		width: 20%;
+	}
+
+	.submenu-group-tags {
+		width: 60%;
+	}
+
+	.submenu-group-tags .submenu-item {
+		display: inline-block;
+		width: 33.333%;
+	}
+}
+
+.submenu {
+	list-style-type: none;
+	padding-right: 0;
+	padding-left: 0;
+}
+
+.submenu-title {
+	color: white;
+}
+
+.submenu-link,
+.submenu-link:hover,
+.submenu-link:focus,
+.submenu-link:active {
+	color: #DDDDDC;
+}
+
+.site-chooser,
+.site-chooser-menu {
+	margin-bottom: 0;
+	padding-left: 0;
+	list-style: none;
+}
+
+.site-chooser-current {
+	position: relative;
+}
+
+.site-chooser-menu {
+	position: absolute;
+	right: 0;
+	display: none;
+	background-color: #000;
+}
+
+.site-chooser-current:hover .site-chooser-menu {
+	display: block;
+}
+
+a.site-chooser-link {
+	display: block;
+	padding: 10px 20px;
+	color: #fff;
+}
+
+/* @end Page Header */
+
+/* @group Splash */
+
+.page-section-splash,
+.page-section-splash-2 {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100vh;
+	background-color: #141914;
+	font-size: 24px;
+	color: #DDDDDC;
+}
+
+.page-section-splash .section-header,
+.page-section-splash-2 .section-header {
+	display: none;
+}
+
+/* @end Splash */
+
+/* @group Home Page */
+
+/* Section about Show INFO */
+.info-bachelor, .info-master {
+	margin-top: 40px;
+	/* margin-bottom: 50px; */
+	overflow: hidden;
+	width: 100%;
+}
+
+.info-bachelor h3, .info-master h3 {
+	font-weight: 800;
+	font-size: 20px;
+	margin-bottom: 15px;
+	clear: both;
+}
+
+.info-bachelor strong, .info-master strong {
+	font-family: "SpaceGrotesk-Bold", sans-serif;
+	font-weight: 800;
+}
+
+.floatInfo {
+	float: left;
+}
+
+.floatInfo.left {
+  width: 25%;
+}
+
+.floatInfo.right {
+  width: 75%;
+}
+
+.section-anchor {
+	position: relative;
+	top: -75px;
+}
+
+.page-section {
+	padding-top: 40px;
+	padding-bottom: 40px;
+}
+
+.students-section {
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
+.section-header {
+	margin-bottom: 40px;
+}
+
+.students-section .section-header {
+	margin-bottom: 10px;
+}
+
+.program-title {
+	margin-bottom: 40px;
+}
+
+.grid {
+	margin-bottom: 0;
+	padding-right: 0;
+	padding-left: 0;
+	list-style-type: none;
+}
+
+.grid-masonry-columns {
+	column-count: 1;
+	column-fill: balance;
+	column-gap: 0;
+}
+
+.grid-item {
+	display: inline-block;
+	padding-bottom: 40px;
+	width: 100%;
+	vertical-align: top;
+}
+
+.grid-masonry-columns .grid-item {
+	display: block;
+	break-inside: avoid-column;
+}
+
+@media (min-width: 576px) {
+	.grid-masonry-columns {
+		column-count: 2;
+		column-gap: 20px;
+	}
+
+	.grid-horizontal {
+		margin-right: -10px;
+		margin-left: -10px;
+	}
+
+	.grid-horizontal .grid-item {
+		padding: 10px;
+		width: 50%;
+	}
+}
+
+@media (min-width: 768px) {
+	.grid-masonry-columns {
+		column-count: 3;
+		column-gap: 30px;
+	}
+
+	.grid-horizontal {
+		margin-right: -15px;
+		margin-left: -15px;
+	}
+
+	.grid-horizontal .grid-item {
+		padding: 15px;
+		width: 33.333%;
+	}
+}
+
+@media (min-width: 992px) {
+	.grid-masonry-columns {
+		column-count: 4;
+		column-gap: 40px;
+	}
+
+	.grid-horizontal {
+		margin-right: -20px;
+		margin-left: -20px;
+	}
+
+	.grid-horizontal .grid-item {
+		padding: 20px;
+		width: 25%;
+	}
+}
+
+/* .entry-thumbnail {
+	display: inline;
+	margin-bottom: 10px;
+}
+
+.entry-thumbnail-img img {
+	position: absolute;
+	z-index: 10;
+	width: 250px;
+	height: auto;
+}
+
+.entry-thumbnail-img {
+	position: inline;
+	z-index: 10;
+	width: auto;
+	height: auto;
+}
+
+.studentvideos {
+	display: inline;
+	position: relative;
+	margin-bottom: 10px;
+	z-index: 1;
+}
+
+.entry-thumbnail-img img:hover {
+	display: none;
+} */
+
+.entry-thumbnail {
+	display: inline;
+	margin-bottom: 10px;
+}
+
+.entry-thumbnail-img img {
+	position: inline;
+	z-index: 1;
+	width: 250px;
+	height: auto;
+}
+
+.entry-thumbnail-img {
+	position: inline;
+	z-index: 1;
+	width: auto;
+	height: auto;
+}
+
+.entry-thumbnail .studentvideos {
+	margin-bottom: 0px;
+}
+
+.studentvideos {
+	display: inline;
+	position: relative;
+	z-index: 10;
+}
+
+.author:not(:last-child)::after {
+	content: ',';
+}
+
+/* @end Home Page */
+
+/* @group Credits */
+
+.page-section-credits {
+	margin-bottom: 0;
+	padding-top: 40px;
+	padding-bottom: 40px;
+}
+
+.credits-group {
+	margin-bottom: 0;
+}
+
+.credits-title {
+	font-family: "SpaceGrotesk-Bold";
+}
+
+.credits-name {
+	margin-bottom: 0;
+}
+
+/* @end Credits */
+
+/* @group Single Project Page */
+
+.single-projects {
+	padding-top: 200px;
+}
+
+@media (min-width: 768px) {
+	.single-projects {
+		margin-right: -25px;
+		margin-left: -25px;
+	}
+
+	.single-projects::after {
+		/* Clearfix */
+		display: block;
+		clear: both;
+		content: '';
+	}
+
+	.single-projects .entry-header {
+		float: left;
+		padding-right: 25px;
+		padding-left: 25px;
+		width: 33.333%;
+	}
+
+	.single-projects .entry-content {
+		float: left;
+		padding-right: 25px;
+		padding-left: 25px;
+		width: 66.666%;
+	}
+}
+
+.single-projects .entry-title {
+	font-size: 48px;
+	font-weight: Bold;
+}
+
+.single-projects .author {
+	font-weight: bold;
+}
+
+.entry-tags {
+	display: block;
+}
+
+h2 .entry-title {
+	font-family: "SpaceGrotesk-Regular";
+}
+
+.tag:not(:last-child)::after {
+	content: ' | ';
+}
+
+.single-projects .entry-description {
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+.entry-content-video {
+	margin-bottom: 10px;
+}
+
+.entry-content-image {
+	display: block;
+	margin-bottom: 10px;
+}
+
+/* @end Single Project Page */
+
+/* @group Single Student Page */
+
+.single-students {
+	padding-top: 200px;
+}
+
+@media (min-width: 768px) {
+	.single-students {
+		margin-right: auto;
+		margin-left: auto;
+		width: 75%;
+	}
+
+	.single-students::after {
+		/* Clearfix */
+		display: block;
+		clear: both;
+		content: '';
+	}
+
+	.single-students .entry-header {
+		float: left;
+		width: 50%;
+	}
+
+	.single-students .entry-content {
+		float: left;
+		width: 50%;
+	}
+}
+
+.single-students .entry-title {
+	/* font-weight: Bold; */
+	font-size: 48px;
+}
+
+.entry-title {
+	margin-top: 10px;
+	font-size: 18px;
+}
+
+.details {
+	margin-top: 40px;
+	margin-bottom: 40px;
+}
+
+.details-list {
+	padding-right: 0;
+	padding-left: 0;
+	list-style-type: none;
+}
+
+.details-title {
+	font-size: 18px;
+}
+
+.details-section {
+	display: inline-block;
+	padding-right: 30px;
+	vertical-align: top;
+}
+
+/* @end Single Student Page */
+
+/* @group Category Page */
+
+.page-single-category .page-section {
+	padding-top: 100px;
+}
+
+/* @end Category Page */
+
+/* @group 404 */
+
+.page-404 .site-main {
+	padding-top: 100px;
+}
+
+/* @end 404 */

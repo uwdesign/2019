@@ -1,0 +1,95 @@
+{% extends '_layout' %}
+
+{% set body_class = 'page-submissions' %}
+
+{% set id = craft.app.request.getSegment(3) %}
+{% set entry = craft.entries.section('projects').id(id).status(null).one() %}
+
+{% set thumb = {
+	mode: 'fit',
+	width: 100,
+	quality: 75,
+	position: 'center-center'
+} %}
+
+{% block content %}
+<div class="container-fluid py-5">
+	<div class="row">
+		<div class="col-md-10 mx-auto">
+			
+			{% if entry | length and entry.postDate | date_modify('+1 days') | date('U') > 'now' | date('U') %}
+				<h1>Success!</h1>
+				<p>Your project has been submitted and will be reviewed by a member of the web team.<br />
+				Note: This page will expire in 24 hours.</p>
+				
+				<h3>Your submission:</h3>
+				
+				<form>
+					<div class="form-group">
+						<strong>Title</strong>
+						<p>{{ entry.title }}</p>
+					</div>
+					
+					<div class="form-group">
+						<strong>Designers</strong>
+						<ul>
+						{% for designer in entry.designers.all() %}
+							<li>{{ designer.title }}</li>
+						{% endfor %}
+						</ul>
+					</div>
+					
+					{#<div class="form-group">
+						<strong>Short Description</strong>
+						<p>{{ entry.shortDescription }}</p>
+					</div>#}
+					
+					<div class="form-group">
+						<strong>Description</strong>
+						<p>{{ entry.longDescription }}</p>
+					</div>
+					
+					<div class="form-group">
+						<strong>Tags</strong>
+						<ul>
+						{% for tag in entry.tags.all() %}
+							<li>{{ tag.title }}</li>
+						{% endfor %}
+						</ul>
+					</div>
+					
+					{% set splash = entry.splash.one() %}
+					<div class="form-group">
+						<strong>Thumbnail Image</strong>
+						{% if splash | length %}
+						<p>{{ splash.fileName }}<br />
+							<img src="{{ splash.getUrl(thumb) }}" width="{{ splash.getWidth(thumb) }}" height="{{ splash.getHeight(thumb) }}" />
+						</p>
+						{% endif %}
+					</div>
+					
+					{% set assets = entry.images.all() %}
+					<div class="form-group">
+						<strong>Images</strong>
+						{% if assets | length %}
+							<ul>
+							{% for asset in assets %}
+								<li>{{ asset.fileName }}<br /><img src="{{ asset.getUrl(thumb) }}" width="{{ asset.getWidth(thumb) }}" height="{{ asset.getHeight(thumb) }}" /></li>
+							{% endfor %}
+							</ul>
+						{% endif %}
+					</div>
+					
+					<div class="form-group">
+						<strong>Video</strong>
+						<p>{{ entry.video }}</p>
+					</div>
+				</form>
+			{% else %}
+				{% exit 404 %}
+			{% endif %}
+		</div>
+	</div><!-- .row -->
+</div><!-- .container-fluid -->
+
+{% endblock %}

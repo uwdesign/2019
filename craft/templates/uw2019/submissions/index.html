@@ -1,0 +1,169 @@
+{% extends '_layout' %}
+
+{% set body_class = 'page-submissions' %}
+
+{% macro errorList(errors) %}
+	{% if errors %}
+		<div class="invalid-feedback">
+			{% for error in errors %}
+				{{ error }}
+			{% endfor %}
+		</div>
+	{% endif %}
+{% endmacro %}
+
+{% from _self import errorList %}
+
+{% block content %}
+<div class="container-fluid py-5">
+	<div class="row">
+		<div class="col-md-10 mx-auto">
+			<h1>UW Design Show Project Submission</h1>
+		
+			<form method="post" action="" accept-charset="UTF-8" enctype="multipart/form-data">
+				{{ csrfInput() }}
+				<input type="hidden" name="action" value="guest-entries/save">
+				{% set projectsSection = craft.sections.getSectionByHandle('projects') %}
+				<input type="hidden" name="sectionId" value="{{ projectsSection.id }}">
+				<input type="hidden" name="siteId" value="{{ currentSite.id }}">
+				{{ redirectInput(currentSite.baseUrl ~ 'submissions/success/{id}') }}
+				
+				<div class="form-group">
+					<label for="title">Title</label>
+					<input id="title" type="text" class="form-control {{ entry is defined and entry.getErrors('title') | length ? 'is-invalid' }}" name="title"{%- if entry is defined %} value="{{ entry.title }}"{% endif -%}>
+					<small class="form-text text-muted">
+						Required.
+					</small>
+					{% if entry is defined %}
+						{{ errorList(entry.getErrors('title')) }}
+					{% endif %}
+				</div>
+				
+				
+				{% set designersField = craft.app.fields.getFieldByHandle('designers') %}
+				{% set students = craft.entries.section('students').orderBy('title').all() %}
+				<div class="form-group">
+					<label for="{{ designersField.handle }}">{{ designersField.name }}</label>
+					<select multiple id="{{ designersField.handle }}" class="form-control {{ entry is defined and entry.getErrors('designers') | length ? 'is-invalid' }}" name="fields[{{ designersField.handle }}][]" size="15">
+						{% for student in students %}
+							<option value="{{ student.id }}"{%- if entry is defined and student.id in entry.designers.ids() %} selected{% endif -%}>{{ student.title }}</option>
+						{% endfor %}
+					</select>
+					<small class="form-text text-muted">
+						{{ designersField.instructions }} Cmd+Click or Ctrl+Click to select multiple.
+					</small>
+					{% if entry is defined %}
+						{{ errorList(entry.getErrors('designers')) }}
+					{% endif %}
+				</div>
+				
+				{#{% set shortDescriptionField = craft.app.fields.getFieldByHandle('shortDescription') %}
+				<div class="form-group">
+					<label for="{{ shortDescriptionField.handle }}">{{ shortDescriptionField.name }}</label>
+					<textarea id="{{ shortDescriptionField.handle }}" class="form-control {{ entry is defined and entry.getErrors('shortDescription') | length ? 'is-invalid' }}" name="fields[{{ shortDescriptionField.handle }}]" maxlength="140" rows="2">
+					{%- if entry is defined %}{{ entry.shortDescription }}{% endif -%}
+					</textarea>
+					<small class="form-text text-muted">
+						{{ shortDescriptionField.instructions }}
+					</small>
+					{% if entry is defined %}
+						{{ errorList(entry.getErrors('shortDescription')) }}
+					{% endif %}
+				</div>#}
+				
+				{% set longDescriptionField = craft.app.fields.getFieldByHandle('longDescription') %}
+				<div class="form-group">
+					<label for="{{ longDescriptionField.handle }}">{{ longDescriptionField.name }}</label>
+					<textarea id="{{ longDescriptionField.handle }}" class="form-control {{ entry is defined and entry.getErrors('longDescripton') | length ? 'is-invalid' }}" name="fields[{{ longDescriptionField.handle }}]" rows="6">
+					{%- if entry is defined %}{{ entry.longDescription }}{% endif -%}
+					</textarea>
+					<small class="form-text text-muted">
+						{{ longDescriptionField.instructions }}
+					</small>
+					{% if entry is defined %}
+						{{ errorList(entry.getErrors('longDescription')) }}
+					{% endif %}
+				</div>
+			
+			
+				{% set tagsField = craft.app.fields.getFieldByHandle('tags') %}
+				{% set tags = craft.categories.group('tags').orderBy('title').all() %}
+				
+				<div class="form-group">
+					<label for="{{ tagsField.handle }}">{{ tagsField.name }}</label>
+					<br />
+					{% for tag in tags %}
+						<div class="form-check form-check-inline">
+							<input class="form-check-input" type="checkbox" value="{{ tag.id }}" id="tag-{{ tag.id }}" name="fields[{{ tagsField.handle }}][]"{%- if entry is defined and tag.id in entry.tags.ids() %} checked{% endif -%}>
+							<label class="form-check-label" for="tag-{{ tag.id }}">
+								{{ tag.title }}
+							</label>
+						</div>
+					{% endfor %}
+				</div>
+				
+				
+				{% set splashField = craft.app.fields.getFieldByHandle('splash') %}
+				<div class="form-group">
+					<div class="form-row">
+						<div class="col-md-6 col-sm-8">
+							<label for="{{ splashField.handle }}">{{ splashField.name }}</label>
+							<div class="custom-file">
+								<input id="{{ splashField.handle }}" class="custom-file-input {{ entry is defined ? 'is-invalid' }}" type="file" name="fields[{{ splashField.handle }}][]" accept="image/*">
+								<label class="custom-file-label" for="{{ splashField.handle }}">Choose File…</label>
+								<small class="form-text text-muted">
+									{{ splashField.instructions }}
+								</small>
+								{% if entry is defined %}
+									<div class="invalid-feedback">
+										There was an invalid entry in the form. Please select your file again.
+									</div>
+									{{ errorList(entry.getErrors('splash')) }}
+								{% endif %}
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				
+				{% set imagesField = craft.app.fields.getFieldByHandle('images') %}
+				
+				<div class="form-group">
+					<div class="form-row">
+						<div class="col-md-6 col-sm-8">
+							<label for="{{ imagesField.handle }}">{{ imagesField.name }}</label>
+							<div class="custom-file">
+								<input id="{{ imagesField.handle }}" class="custom-file-input {{ entry is defined ? 'is-invalid' }}" type="file" name="fields[{{ imagesField.handle }}][]" accept="image/*" multiple>
+								<label class="custom-file-label" for="{{ imagesField.handle }}">Choose Files…</label>
+								<small class="form-text text-muted">
+									{{ imagesField.instructions }} Images will be placed in the same order as they appear in your file picker.
+								</small>
+								{% if entry is defined %}
+									<div class="invalid-feedback">
+										There was an invalid entry in the form. Please select your files again.
+									</div>
+									{{ errorList(entry.getErrors('images')) }}
+								{% endif %}
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				{% set videoField = craft.app.fields.getFieldByHandle('video') %}
+				<div class="form-group">
+					<label for="{{ videoField.handle }}">{{ videoField.name }}</label>
+					<input id="{{ videoField.handle }}" class="form-control {{ entry is defined and entry.getErrors('video') | length ? 'is-invalid' }}" type="url" placeholder="https://vimeo.com/" name="fields[{{ videoField.handle }}]"{%- if entry is defined %} value="{{ entry.video }}"{% endif -%}>
+					<small class="form-text text-muted">
+						{{ videoField.instructions }}
+					</small>
+					{% if entry is defined %}
+						{{ errorList(entry.getErrors('video')) }}
+					{% endif %}
+				</div>
+				
+				<input type="submit" class="btn btn-primary" value="Submit">
+			</form>
+		</div>
+	</div><!-- .row -->
+</div><!-- .container-fluid -->
+{% endblock %}

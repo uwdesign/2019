@@ -1,0 +1,16 @@
+{# This is the template for the Rich Text sections on the home page #}
+
+<div id="{{ block.sectionName | kebab }}" class="section-anchor"></div>
+<section id="page-section-{{ block.sectionName | kebab }}" class="page-section page-section-{{ block.sectionName | kebab }} section-type-rich-text">
+	<div class="container-fluid container-max-width">
+
+		<header class="section-header">
+			<h2 class="section-title">{{ block.sectionName }}</h2>
+		</header>
+
+		<div class="section-content">
+			{{ block.sectionContent }}
+		</div>
+
+	</div><!-- .container-fluid -->
+</section>

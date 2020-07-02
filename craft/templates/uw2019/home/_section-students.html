@@ -1,0 +1,64 @@
+{# This is the template for the Students section on the home page #}
+
+{# Get all students #}
+{% set students = craft.entries
+	.section('students')
+	.with([
+		'photo',
+		'program'
+	])
+	.all() %}
+
+{% set programs = craft.categories.group('programs').all() %}
+{% set studentsByProgram = students | group('program[0] ?? null') %}
+
+<div id="{{ block.sectionName ? block.sectionName | kebab : 'students' }}" class="section-anchor"></div>
+<section id="page-section-{{ block.sectionName ? block.sectionName | kebab : 'students' }}" class="page-section page-section-{{ block.sectionName ? block.sectionName | kebab : 'students' }} section-type-students">
+	<div class="container-fluid container-max-width">
+
+		<header class="section-header">
+			<h2 class="section-title">{{ block.sectionName ? block.sectionName : 'Students' }}</h2>
+		</header>
+
+		{% for program in programs %}
+			{% set studentsInProgram = studentsByProgram[ '' ~ program ] | default( [] ) %}
+
+			{% if studentsInProgram | length %}
+			<div id="{{ program.slug }}" class="section-anchor"></div>
+			<section class="students-section students-section-{{ program.slug }}">
+				<header class="section-header">
+					<h3 class="section-title">{{ program.title }}</h3>
+				</header>
+
+				<ul class="grid grid-horizontal">
+					{% for entry in studentsInProgram -%}
+					<li class="grid-item">
+
+						<article id="entry-{{ entry.id }}" class="entry entry-type-{{ entry.type.handle }}{% for program in entry.program %} entry-program-{{ program.slug }}{% endfor %} {{ entry.photo | length ? 'has-entry-thumbnail' }}">
+
+							{# Get the video as asset and photo as asset2 #}
+							{% set asset2 = entry.photo[0] ?? null %}
+							{% set asset = entry.studentVideo[0] ?? null %}
+
+							{% if asset | length %}
+							{% if asset2 | length %}
+
+							<a class="entry-thumbnail studentvideos" href="{{ entry.url }}" aria-hidden="true">
+							  <video src="{{ asset.getUrl({ }) }}" alt="{{ asset.title }}" muted loop class="studentvideos entry-thumbnail img-fluid" poster="{{ asset2.getUrl({ mode: 'fit', width: '540', quality: '90' }) }}" onmouseout="{{ asset2.getUrl({ mode: 'fit', width: '540', quality: '90' }) }}" preload="{{ asset2.getUrl({ mode: 'fit', width: '540', quality: '90' }) }}"></video>
+							{% endif %}
+							{% endif %}
+
+							<header class="entry-header">
+								<h2 class="entry-title"><a href="{{ entry.url }}" rel="bookmark">{{ entry.title }}</a></h2>
+							</header>
+						</article>
+
+					</li>
+					{%- endfor %}
+				</ul>
+			</section>
+			{% endif %}
+		{% endfor %}
+
+	</div><!-- .container-fluid -->
+</section><!-- #students -->

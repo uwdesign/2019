@@ -1,0 +1,31 @@
+{#
+ # Project entry template
+ # -------------------
+ #
+ # This template gets loaded whenever a Project entry’s URL is
+ # requested. That’s because the Projects section’s Template setting is
+ # set to “projects/_entry”, the path to this template.
+ #
+ # When this template is loaded, it will already have an ‘entry’
+ # variable, set to the requested Project entry.
+ #
+ # See this page for more details on how Craft routes requests:
+ # http://buildwithcraft.com/docs/routing
+ #}
+ 
+{% extends '_layout' %}
+
+{% set title = entry.title %}
+{% set body_class = 'page-single-project' %}
+
+{% block content %}
+	<div id="primary" class="content-area">
+		<main id="main" class="site-main" role="main">
+			<div class="container-fluid container-max-width">
+			
+				{% include 'includes/_content-single-project' with { 'entry': entry, 'single': true } only %}
+			
+			</div><!-- .container-fluid -->
+		</main><!-- #main -->
+	</div><!-- #primary -->
+{% endblock %}

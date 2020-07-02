@@ -1,0 +1,47 @@
+<article id="entry-{{ entry.id }}" class="entry single-{{ entry.type.handle }} {{ entry.splash | length ? 'has-entry-thumbnail' }}">
+	
+	<header class="entry-header">
+		{% if single is defined and single %}
+			<h1 class="entry-title">{{ entry.title }}</h1>
+		{% else %}
+			<h2 class="entry-title"><a href="{{ entry.url }}" rel="bookmark">{{ entry.title }}</a></h2>
+		{% endif %}
+		
+		<div class="entry-meta">
+			<span class="byline">
+				{% for designer in entry.designers %}
+				<span class="author"><a href="{{ designer.url }}" class="author-link" rel="bookmark">{{ designer.title }}</a></span>
+				{% endfor %}
+			</span>
+			
+			<span class="entry-tags">
+				{% for tag in entry.tags %}
+					<span class="tag"><a href="{{ tag.url }}" class="tag-link">{{ tag.title }}</a></span>
+				{% endfor %}
+			</span>
+		</div><!-- .entry-meta -->
+		
+		<div class="entry-description">
+			{{ entry.longDescription }}
+		</div>
+	</header>
+	
+	<div class="entry-content">
+		{% if entry.video | length %}
+		<div class="entry-content-video embed-responsive embed-responsive-16by9">
+			{{ entry.video.render }}
+		</div>
+		{% endif %}
+		
+		{% set assets = entry.images %}
+		
+		{% if assets | length %}
+			{% for asset in assets %}
+			<span class="entry-content-image">
+				<img src="{{ asset.getUrl({ mode: 'fit', width: '960', quality: '90' }) }}" width="{{ asset.getWidth() }}" height="{{ asset.getHeight() }}" alt="{{ asset.title }}" class="img-fluid" />
+			</span>
+			{% endfor %}
+		{% endif %}
+	</div><!-- .entry-content -->
+	
+</article>

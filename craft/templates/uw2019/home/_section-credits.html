@@ -1,0 +1,35 @@
+{# This is the template for the Credits section on the home page #}
+
+<div id="{{ block.sectionName | kebab }}" class="section-anchor"></div>
+<section id="page-section-{{ block.sectionName | kebab }}" class="page-section page-section-{{ block.sectionName | kebab }} section-type-credits">
+	<div class="container-fluid container-max-width">
+	
+		<header class="section-header">
+			<h2 class="section-title">{{ block.sectionName }}</h2>
+		</header>
+		
+		<div class="section-content">
+			
+			{% set credits = block.credits.all() %}
+			
+			{% if credits | length %}
+			<ul class="grid grid-masonry-columns">
+				{% for credit in credits -%}
+				<li class="grid-item">
+					<dl class="credits-group">
+						{% if credit.groupTitle | length %}
+						<dt class="credits-title">{{ credit.groupTitle }}</dt>
+						{% endif %}
+						
+						{% for name in credit.names %}
+						<dd class="credits-name">{{ name.name }}</dd>
+						{% endfor %}
+					</dl>
+				</li>
+				{%- endfor %}
+			</ul>
+			{% endif %}
+		</div><!-- .section-content -->
+		
+	</div><!-- .container-fluid -->
+</section>

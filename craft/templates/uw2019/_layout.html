@@ -1,0 +1,196 @@
+{#
+ # Layout template
+ # ---------------
+ #
+ # This template defines your site’s global layout. It can be
+ # “extended” by other templates to fill in the gaps.
+ #
+ # See Twig’s Template Inheritance documentation for more details:
+ # http://twig.sensiolabs.org/doc/templates.html#template-inheritance
+ #}
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+	{% block head %}
+		<meta charset="utf-8">
+		<title>{{ title is defined ? title ~ ' – ' }}{{ siteName }}</title>
+		<meta http-equiv="x-ua-compatible" content="ie=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<link rel="profile" href="http://gmpg.org/xfn/11">
+
+		<link rel="home" href="{{ siteUrl }}" />
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+
+		<!-- Custom styles -->
+		<link rel="stylesheet" type="text/css" href="/resources/{{ currentSite.handle }}/css/base.css?v=2">
+		<link rel="stylesheet" type="text/css" href="/resources/{{ currentSite.handle }}/css/form.css?v=2">
+		<link rel="stylesheet" type="text/css" href="/resources/{{ currentSite.handle }}/css/custom.css?v=2">
+
+    <!-- Typekit integration for Pragmatic typeface !!NO LONGER IN USE!! -->
+    <!-- <link rel="stylesheet" type="text/css" href="https://use.typekit.net/fbv3ykm.css"> -->
+
+		<!-- Favicons -->
+		<link rel="apple-touch-icon" href="icon.png">
+
+		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+		<!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+			<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+		<![endif]-->
+		<link rel="icon" type="image/png" href="/resources/{{ currentSite.handle }}/icon.png">
+	{% endblock %}
+</head>
+<body class="{{ body_class is defined ? body_class }}">
+	<!--[if lte IE 9]>
+	   <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+	<![endif]-->
+
+	<div id="page" class="site">
+		<a class="skip-link screen-reader-text sr-only" href="#content">{{ "Skip to content" | translate }}</a>
+
+		<header id="masthead" class="site-header">
+			<div class="container-fluid container-max-width">
+
+				<div class="site-branding">
+					<ul class="site-chooser">
+						<li class="site-chooser-current">
+							{% if craft.app.request.segments | first == '' %}
+								<h1 class="site-title"><a href="{{ siteUrl }}" rel="home">{{ siteName }}</a></h1>
+							{% else %}
+								<p class="site-title"><a href="{{ siteUrl }}" rel="home">{{ siteName }}</a></p>
+							{% endif %}
+
+							{% set sites = craft.app.sites.getAllSites() %}
+
+							{% if sites | length %}
+							<ul class="site-chooser-menu">
+								{% for site in sites if currentSite.id != site.id -%}
+									{# Only display site if its home page is enabled #}
+									{% set siteHomePage = craft.entries.section('home').siteId(site.id).one() %}
+									{% if siteHomePage %}
+									<li class="site-chooser-menu-item">
+										<a href="{{ site.baseUrl }}" class="site-chooser-link">{{ site.name }}</a>
+									</li>
+									{% endif %}
+								{%- endfor %}
+							</ul>
+							{% endif %}
+						</li>
+					</ul>
+
+					{#<p class="site-description"></p>#}
+				</div><!-- .site-branding -->
+
+				<nav id="site-navigation" class="main-navigation">
+
+					{% set homeEntry = craft.entries.section('home').anyStatus().one() %}
+					{% set sections = homeEntry.matrix.all() %}
+					{% set programs = craft.categories.group('programs').all() %}
+					{% set tags = craft.categories.group('tags').all() %}
+
+					{# Create submenu for filtering projects #}
+					{% set projectsSubmenu %}
+						<span class="submenu-container">
+							<div class="container-fluid container-max-width">
+								{% if programs | length %}
+								<section class="submenu-group submenu-group-programs">
+									<h4 class="submenu-title">By Major</h4>
+									<ul class="submenu">
+										{% for program in programs -%}
+										<li class="submenu-item submenu-item-program-{{ program.slug }}"><a href="{{ program.url }}" class="submenu-link">{{ program.abbreviation ? program.abbreviation : program.title }}</a></li>
+										{%- endfor %}
+									</ul>
+								</section>
+								{%- endif -%}
+
+								{%- if tags | length -%}
+								<section class="submenu-group submenu-group-tags">
+									<h4 class="submenu-title">By Tag</h4>
+									<ul class="submenu">
+										{% for tag in tags -%}
+										<li class="submenu-item submenu-item-tag-{{ tag.slug }}"><a href="{{ tag.url }}" class="submenu-link">{{ tag.title }}</a></li>
+										{%- endfor %}
+									</ul>
+								</section>
+								{% endif %}
+							</div><!-- .container-fluid -->
+						</span><!-- .submenu-container -->
+					{% endset %}
+
+					{% set studentsSubmenu %}
+						<span class="submenu-container">
+							<div class="container-fluid container-max-width">
+								{% if programs | length %}
+								<section class="submenu-group submenu-group-programs">
+									<h4 class="submenu-title">By Major</h4>
+									<ul class="submenu">
+										{% for program in programs -%}
+										<li class="submenu-item submenu-item-program-{{ program.slug }}"><a href="{{ siteUrl }}#{{ program.slug }}" class="submenu-link">{{ program.abbreviation ? program.abbreviation : program.title }}</a></li>
+										{%- endfor %}
+									</ul>
+								</section>
+								{%- endif -%}
+							</div><!-- .container-fluid -->
+						</span><!-- .submenu-container -->
+					{% endset %}
+
+					<ul id="primary-menu" class="menu nav-menu">
+						{% for section in sections if section.showInMenu == 1 %}
+						<li id="menu-item-{{ section.sectionName | kebab }}" class="menu-item menu-item-{{ section.sectionName | kebab }} {{ section.type == 'projectsSection' or section.type == 'studentsSection' ? 'has-submenu' }}">
+							<a href="{{ siteUrl }}#{{ section.sectionName | kebab }}" class="menu-link">{{ section.sectionName }}</a>
+							{% if section.type == 'projectsSection' %}
+								{{ projectsSubmenu }}
+							{% endif %}
+							{% if section.type == 'studentsSection' %}
+								{{ studentsSubmenu }}
+							{% endif %}
+						</li>
+						{% endfor %}
+					</ul>
+				</nav><!-- #site-navigation -->
+			</div><!-- .container-fluid -->
+		</header><!-- #masthead -->
+
+		<div id="content" class="site-content">
+
+			{% block content %}{% endblock %}
+
+		</div><!-- #content -->
+
+		<footer id="colophon" class="site-footer">
+			<div class="site-info">
+
+			</div>
+		</footer><!-- #colophon -->
+	</div><!-- #page -->
+
+	<!-- jQuery -->
+	<script
+		src="https://code.jquery.com/jquery-3.3.1.min.js"
+		integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+		crossorigin="anonymous"></script>
+
+	<!-- Custom scripts -->
+	<script src="/resources/{{ currentSite.handle }}/js/scroll-to.js?v=1" type="text/javascript"></script>
+	<script src="/resources/{{ currentSite.handle }}/js/custom.js?v=1" type="text/javascript"></script>
+  <script src="/resources/{{ currentSite.handle }}/js/anime.min.js?v=1" type="text/javascript"></script>
+
+	<!-- Project submission form -->
+	<script src="/resources/{{ currentSite.handle }}/js/form.js?v=1" type="text/javascript"></script>
+
+	{% if craft.app.config.general.devMode %}
+		<script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
+	{% else %}
+		<!-- Google Analytics -->
+		<script>
+			window.ga=function(){ga.q.push(arguments)};ga.q=[];ga.l=+new Date;
+			ga('create','UA-XXXXX-Y','auto');ga('send','pageview')
+		</script>
+		<script src="https://www.google-analytics.com/analytics.js" async defer></script>
+	{% endif %}
+
+</body>
+</html>

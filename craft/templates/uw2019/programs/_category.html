@@ -1,0 +1,64 @@
+{#
+ # Program category template
+ # -------------------
+ #
+ # This template gets loaded whenever a Program category’s URL is
+ # requested. That’s because the Tag section’s Template setting is
+ # set to “program/_category”, the path to this template.
+ #
+ # When this template is loaded, it will already have a ‘category’
+ # variable, set to the requested Programs category.
+ #
+ # See this page for more details on how Craft routes requests:
+ # http://buildwithcraft.com/docs/routing
+ #}
+ 
+{% extends '_layout' %}
+
+{% set title = category.title %}
+{% set body_class = 'page-single-category program-' ~ category.slug %}
+
+{% block content %}
+	<div id="primary" class="content-area">
+		<main id="main" class="site-main" role="main">
+				
+				<section id="page-section-{{ category.group.handle }}" class="page-section page-section-{{ category.group.handle }}">
+					<div class="container-fluid container-max-width">
+					
+						<header class="section-header">
+							<h2 class="section-title">{{ category.title }}</h2>
+						</header>
+					
+						<div class="section-content">
+							
+							{% set projects = craft.entries
+								.section('projects')
+								.relatedTo(category)
+								.with([
+									'designers',
+									'tags',
+									'splash',
+									'images'
+								])
+								.all() %}
+							
+							{% if projects | length %}
+							<ul class="grid grid-masonry-columns">
+								{% for entry in projects -%}
+								<li class="grid-item">
+									
+									{% include 'includes/_content-project' with { 'entry': entry } only %}
+									
+								</li>
+								{%- endfor %}
+							</ul>
+							{% endif %}
+							
+						</div>
+						
+					</div><!-- .container-fluid -->
+				</section>
+				
+		</main><!-- #main -->
+	</div><!-- #primary -->
+{% endblock %}

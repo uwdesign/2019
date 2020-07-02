@@ -1,0 +1,97 @@
+{#
+ # Students entry template
+ # -------------------
+ #
+ # This template gets loaded whenever a Student entry’s URL is
+ # requested. That’s because the Students section’s Template setting is
+ # set to “students/_entry”, the path to this template.
+ #
+ # When this template is loaded, it will already have an ‘entry’
+ # variable, set to the requested Students entry.
+ #
+ # See this page for more details on how Craft routes requests:
+ # http://buildwithcraft.com/docs/routing
+ #}
+ 
+{% extends '_layout' %}
+
+{% set title = entry.title %}
+{% set body_class = 'page-single-student' %}
+
+{# Get all projects this student is on #}
+{% set projects = craft.entries
+	.section('projects')
+	.relatedTo({
+		targetElement: entry,
+		field: 'designers'
+	})
+	.with([
+		'designers',
+		'tags',
+		'splash',
+		'images'
+	])
+	.all() %}
+
+{% block content %}
+	<div id="primary" class="content-area">
+		<main id="main" class="site-main" role="main">
+			<div class="container-fluid container-max-width">
+				
+				<article id="entry-{{ entry.id }}" class="entry single-{{ entry.type.handle }}{% for program in entry.program.all() %} entry-program-{{ program.slug }}{% endfor %} {{ entry.photo | length ? 'has-entry-thumbnail' }}">
+					
+					<header class="entry-header">
+						<h1 class="entry-title">{{ entry.title }}</h1>
+						
+						<div class="entry-meta">
+							<span class="entry-tags">
+								{% for program in entry.program.all() %}
+									<span class="tag"><a href="{{ siteUrl }}#{{ program.slug }}" class="tag-link">{{ program.title }}</a></span>
+								{% endfor %}
+							</span>
+							
+							<div class="details">
+								{% if entry.email or entry.portfolio.all() %}
+								<section class="details-section details-contact">
+									<h4 class="details-title">More</h4>
+									<ul class="details-list">
+										{% if entry.email | length %}<li class="details-item"><a href="mailto:{{ entry.email | raw }}">Email</a></li>{% endif %}
+										{% if entry.portfolio | length %}<li class="details-item"><a href="{{ entry.portfolio | raw }}" target="_blank">Portfolio</a></li>{% endif %}
+									</ul>
+								</section>
+								{%- endif -%}
+								
+								{%- if projects | length -%}
+								<section class="details-section details-projects">
+									<h4 class="details-title">Projects</h4>
+									<ul class="details-list">
+										{% for project in projects %}
+										<li class="details-item"><a href="{{ project.url }}" rel="bookmark">{{ project.title }}</a></li>
+										{% endfor %}
+									</ul>
+								</section>
+								{% endif %}
+							</div>
+						</div><!-- .entry-meta -->
+					</header>
+					
+					<div class="entry-content">
+						{% set asset = entry.photo.one() %}
+						
+						{% if asset | length %}
+						<span class="entry-thumbnail">
+							<img src="{{ asset.getUrl({ mode: 'fit', width: '540', quality: '90' }) }}" width="{{ asset.getWidth() }}" height="{{ asset.getHeight() }}" alt="{{ asset.title }}" class="img-fluid" />
+						</span>
+						{% endif %}
+					</div><!-- .entry-content -->
+					
+				</article>
+				
+				{% for project in projects %}
+					{% include 'includes/_content-single-project.html' with { 'entry': project } only %}
+				{% endfor %}
+				
+			</div><!-- .container-fluid -->
+		</main><!-- #main -->
+	</div><!-- #primary -->
+{% endblock %}
